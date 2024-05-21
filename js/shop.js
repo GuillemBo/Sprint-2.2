@@ -77,18 +77,45 @@ var total = 0;
 // Exercise 1
 function buy(id) {
     // 1. Loop for to the array products to get the item to add to cart
+    let found = null
+
+    for (let i = 0; i < products.length; i++) {
+
+        let posicion = i + 1
+            if (id == posicion) {
+                found = products[i]
+            }
+    }
+    
+    let cartItem = cart.find(item => item.id == id)
     // 2. Add found product to the cart array
+    if (cartItem) {
+        cartItem.quantity += 1
+    } else {
+        cart.push({...found, quantity: 1})
+    }
+        
+    printCart()
+    console.log(cart)
 }
 
 // Exercise 2
 function cleanCart() {
+
+    cart = []
 
 }
 
 // Exercise 3
 function calculateTotal() {
     // Calculate total price of the cart using the "cartList" array
+    let suma = 0
+    for (let i = 0; i < cart.length; i++){
+        suma += cart[i].price * cart[i].quantity
+    }
+    console.log(suma)
 }
+
 
 // Exercise 4
 function applyPromotionsCart() {
