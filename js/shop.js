@@ -95,15 +95,17 @@ function buy(id) {
         cart.push({...found, quantity: 1})
     }
         
+    document.getElementById('count_product').innerHTML = cart.length
     printCart()
-    console.log(cart)
+
 }
 
 // Exercise 2
 function cleanCart() {
-
     cart = []
-
+    document.getElementById('count_product').innerHTML = 0
+    document.getElementById('cart_list').innerHTML = ''
+    document.getElementById('total_price').innerHTML = 0
 }
 
 // Exercise 3
@@ -111,21 +113,68 @@ function calculateTotal() {
     // Calculate total price of the cart using the "cartList" array
     let suma = 0
     for (let i = 0; i < cart.length; i++){
-        suma += cart[i].price * cart[i].quantity
+        if(cart[i].subtotalWithDiscount) {
+            suma += cart[i].subtotalWithDiscount * cart[i].quantity
+        } else {
+            suma += cart[i].price * cart[i].quantity
+        }
     }
-    console.log(suma)
+    return suma
 }
 
 
 // Exercise 4
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
+
+    cart.forEach(item => {
+        if (item.offer) {
+            if(item.quantity >= item.offer.number) {
+                item.subtotalWithDiscount = item.price - (item.offer.percent * item.price / 100)
+            }
+        }
+    })
 }
 
 // Exercise 5
 function printCart() {
     // Fill the shopping cart modal manipulating the shopping cart dom
+
+    applyPromotionsCart()
+
+    let cartList = document.getElementById('cart_list')
+
+    let result = ''
+    let totalCantidad = 0
+
+    for (let i = 0; i < cart.length; i++) {
+
+        if (cart[i].subtotalWithDiscount) {
+            totalCantidad = cart[i].subtotalWithDiscount * cart[i].quantity
+        } else {
+            totalCantidad = cart[i].price * cart[i].quantity
+        }
+
+        let precio = cart[i].price
+        let cantidad = cart[i].quantity
+        let nombre = cart[i].name
+
+        result += 
+        `<tr>
+        <th scope="row">${nombre}</th>
+        <td>${precio}</td>
+        <td>${cantidad}</td>
+        <td>${totalCantidad.toFixed(2)}</td>
+        </tr>`
+    }
+
+    cartList.innerHTML = result
+
+    let total = document.getElementById('total_price')
+    total.innerHTML = calculateTotal().toFixed(2)
 }
+
+
 
 
 // ** Nivell II **
