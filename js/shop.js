@@ -95,7 +95,7 @@ function buy(id) {
         cart.push({...found, quantity: 1})
     }
         
-    document.getElementById('count_product').innerHTML = cart.length
+    
     printCart()
 
 }
@@ -103,9 +103,7 @@ function buy(id) {
 // Exercise 2
 function cleanCart() {
     cart = []
-    document.getElementById('count_product').innerHTML = 0
-    document.getElementById('cart_list').innerHTML = ''
-    document.getElementById('total_price').innerHTML = 0
+    printCart()
 }
 
 // Exercise 3
@@ -172,6 +170,8 @@ function printCart() {
 
     let total = document.getElementById('total_price')
     total.innerHTML = calculateTotal().toFixed(2)
+
+    document.getElementById('count_product').innerHTML = cart.length
 }
 
 
