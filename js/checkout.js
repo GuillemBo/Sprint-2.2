@@ -10,39 +10,62 @@ function validate() {
 	var fPassword = document.getElementById("fPassword");
 	var fPhone = document.getElementById("fPhone");
 
-	// Get the error elements
-	var errorName = document.getElementById("errorName");
-	var errorEmail = document.getElementById("errorEmail");
 	
 	// Validate fields entered by the user: name, phone, password, and email
-	if(fName.value == ""){
-		fName.classList.add('is-invalid')
-		fName.classList.remove('invalid-feedback')
-		errorName.style.display = "block"
-		errorName.innerText
+
+	let lettersOnly = /^[A-Za-z]+$/;
+	let numbersOnly = /^\d+$/;
+	let alphanumeric = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/;
+	let emailFormat = /^\S+@\S+\.\S+$/;
+
+	if(fName.value.trim().length < 3 || !lettersOnly.test(fName.value.trim())){
+		fName.classList.add('is-invalid');
+		error++;
 	} else{
-		errorName.innerText = ""
+		fName.classList.remove('is-invalid')
 	}
 
-	if(fEmail.value == ""){
+	if(fEmail.value.length < 3 || !emailFormat.test(fEmail.value.trim())){
+		fEmail.classList.add('is-invalid');
 		error++;
+	} else {
+		fEmail.classList.remove('is-invalid')
 	}
 
-	if(fAddress.value == ""){
+	if(fAddress.value.trim().length < 3){
+		fAddress.classList.add('is-invalid');
 		error++;
+	} else {
+		fAddress.classList.remove('is-invalid')
 	}
 
-	if(fLastN.value == ""){
+	if(fLastN.value.trim().length < 3 || !lettersOnly.test(fLastN.value.trim())){
+		fLastN.classList.add('is-invalid');
 		error++;
-	}	
+	} else {
+		fLastN.classList.remove('is-invalid')
+	}
 	
-	if(fPassword.value == ""){
+	if(fPassword.value.trim().length < 3 || !alphanumeric.test(fPassword.value.trim())){
+		fPassword.classList.add('is-invalid');
 		error++;
+	} else {
+		fPassword.classList.remove('is-invalid')
 	}
 
-	if(fPhone.value == ""){
+	if((fPhone.value.trim().length < 9 || fPhone.value.trim().length > 9) || !numbersOnly.test(fPhone.value.trim())){
+		fPhone.classList.add('is-invalid');
 		error++;
+	} else {
+		fPhone.classList.remove('is-invalid')
 	}
 	
 
+	if (error > 0) {
+        
+		return false;
+    }
+
+    return true;
 }
+

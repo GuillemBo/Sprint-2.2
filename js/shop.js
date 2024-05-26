@@ -129,6 +129,8 @@ function applyPromotionsCart() {
         if (item.offer) {
             if(item.quantity >= item.offer.number) {
                 item.subtotalWithDiscount = item.price - (item.offer.percent * item.price / 100)
+            } else {
+                delete item.subtotalWithDiscount
             }
         }
     })
@@ -163,6 +165,8 @@ function printCart() {
         <td>${precio}</td>
         <td>${cantidad}</td>
         <td>${totalCantidad.toFixed(2)}</td>
+        <td><button onclick="removeFromCart(${cart[i].id})" class="btn btn-primary btn-sm">-</button></td>
+        <td><button onclick="buy(${cart[i].id})" class="btn btn-primary btn-sm">+</button></td>
         </tr>`
     }
 
@@ -182,6 +186,21 @@ function printCart() {
 // Exercise 7
 function removeFromCart(id) {
 
+    const searchProduct = cart.find(element => element.id == id)
+    const index = cart.findIndex(element => element.id == id)
+    console.log(searchProduct.id)
+    console.log(index)
+
+    if (searchProduct.id == id) {
+
+        if(cart[index].quantity > 1){
+            cart[index].quantity--
+        } else {
+            cart.splice(index, 1)
+        }
+    }
+
+    printCart()
 }
 
 function open_modal() {
